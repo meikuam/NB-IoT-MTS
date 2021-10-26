@@ -1,0 +1,21 @@
+name: nb-iot-mts
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.8
+  - future
+  - setuptools
+  - attrs
+  - typing
+  - typing-extensions
+  - numpy
+  - requests
+  - pandas
+  - psycopg2-binary
+  - sqlalchemy
+  - fastapi
+  - uvicorn
+  - pip
+  - pip:
+    - aiocoap

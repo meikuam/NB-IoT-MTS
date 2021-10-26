@@ -1,0 +1,53 @@
+version: '3.5'
+
+services:
+  api:
+    container_name: iot_api
+    image: iot_api:prod
+    build:
+      context: ..
+      dockerfile: docker/api/Dockerfile
+    environment:
+      API_UVICORN_PROCESSES: ${API_UVICORN_PROCESSES}
+      API_WEB_PORT: ${API_WEB_PORT}
+      API_COAP_PORT: ${API_COAP_PORT}
+    ports:
+      - "${API_WEB_PORT}:8888"
+      - "${API_COAP_PORT}:8889"
+    networks:
+      - postgres
+    restart: always
+  postgres:
+    container_name: iot_postgres_container
+    image: postgres:13
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /data/postgres
+    volumes:
+       - ./postgres:/data/postgres
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    networks:
+      - postgres
+    restart: always
+
+  pgadmin:
+    container_name: iot_pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - ./pgadmin:/root/.pgadmin
+
+    ports:
+      - "${PGADMIN_PORT}:80"
+    networks:
+      - postgres
+    restart: always
+
+networks:
+  postgres:
+    driver: bridge
