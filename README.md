@@ -40,6 +40,3 @@ cd docker && docker-compose up -d
 
 ![gigachad](images/example_coap.png)
 
-
-## Да, я слышал про контейнеры. Не думал что разработчики работают в порту.
-![gigachad](images/gigachad.jpg)
